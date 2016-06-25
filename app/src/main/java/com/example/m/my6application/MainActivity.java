@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -36,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void click(View view) {
         Intent intent = new Intent(this,Main2Activity.class);
+        Toast.makeText(getApplicationContext(),"siema",Toast.LENGTH_SHORT).show();
         startActivity(intent);
    }
 

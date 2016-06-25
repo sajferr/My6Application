@@ -10,8 +10,21 @@ public class Library {
 //                        "rating": 8.3,
 //                        "releaseYear": 2014,
 //                        "genre": ["Action", "Drama", "Sci-Fi"]
+    private float rating;
+    private int releaseYear;
+    private String name;
+    private String title ;
+    private String image;
 
-    private   String title ;
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+
 
     public String getTitle() {
         return title;
@@ -37,10 +50,6 @@ public class Library {
         this.releaseYear = releaseYear;
     }
 
-    private float rating;
-    private int releaseYear;
-
-    private String name;
 
     public String getName() {
         return name;

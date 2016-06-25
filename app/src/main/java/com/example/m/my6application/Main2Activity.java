@@ -1,6 +1,7 @@
 package com.example.m.my6application;
 
 import android.content.Context;
+import android.media.Image;
 import android.media.Rating;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
@@ -10,9 +11,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RatingBar;
 import android.widget.TextView;
+
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -37,6 +43,14 @@ public class Main2Activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
         listView = (ListView) findViewById(R.id.listView);
+        DisplayImageOptions defaultOptions = new DisplayImageOptions.Builder()
+                .cacheInMemory(true)
+                .cacheOnDisk(true)
+                .build();
+        ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(getApplicationContext())
+        .defaultDisplayImageOptions(defaultOptions)
+        .build();
+        ImageLoader.getInstance().init(config); // Do it on Application start
         new Tusk().execute();
 
 
@@ -46,8 +60,8 @@ public class Main2Activity extends AppCompatActivity {
         HttpURLConnection htp;
         InputStream ip;
         BufferedReader reader;
-        Library library;
         List<Library> listy;
+        Library library;
 
         @Override
         protected List<Library> doInBackground(Void... params) {
@@ -72,7 +86,6 @@ public class Main2Activity extends AppCompatActivity {
                 }
                 String jsonek = builder.toString();
                 Log.d("Uwaga", "jsonek2");
-                library = new Library();
                 listy = new ArrayList<Library>();
                 JSONArray array = new JSONArray(jsonek);
                 Log.d("Uwaga", "16");
@@ -81,17 +94,18 @@ public class Main2Activity extends AppCompatActivity {
                     JSONObject obiekt2 = array.getJSONObject(i);
                     //String ing = obiekt2.getString("title");
                     Log.d("Uwaga", "17");
-
+                    library = new Library();
                     library.setTitle(obiekt2.getString("title"));
-                    String ing = obiekt2.getString("title");
+                    //String ing = obiekt2.getString("title");
+                    library.setImage(obiekt2.getString("image"));
                     Log.d("Uwaga", "192");
                     library.setRating(obiekt2.getInt("rating"));
                     library.setReleaseYear(obiekt2.getInt("releaseYear"));
                     Log.d("Uwaga", "1");
                     JSONArray array2 = obiekt2.getJSONArray("genre");
                     Log.d("Uwaga", "19");
+                    Log.d("uwaga","stary");
                     library.setName(String.valueOf(array2) + "\n" + "\n");
-
                     listy.add(library);
                 }
 
@@ -177,20 +191,23 @@ public class Main2Activity extends AppCompatActivity {
                 Log.d("Uwaga","2002022");
                 tekst2=(TextView)convertView.findViewById(R.id.textView2);
             }
+
             tekst3=(TextView)convertView.findViewById((R.id.textView3));
             Log.d("Uwaga","20030");
             tekst4=(TextView)convertView.findViewById((R.id.textView4));
+            ImageView image = (ImageView)convertView.findViewById(R.id.imageView);
             bar = (RatingBar)convertView.findViewById((R.id.ratingBar));
-           // bar.setMax();
+            bar.setNumStars(6);
             float rating=libraryList.get(position).getRating();
             String title=libraryList.get(position).getTitle();
             int years=libraryList.get(position).getReleaseYear();
 
+
             tekst2.setText(title);
             Log.d("Uwaga","2000");
             tekst3.setText(String.valueOf(years));
-            bar.setRating(rating);
-
+            bar.setRating(rating/2);
+            ImageLoader.getInstance().displayImage(libraryList.get(position).getImage(),image);
 
 
                return convertView;
