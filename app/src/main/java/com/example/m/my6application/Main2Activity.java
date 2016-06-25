@@ -78,6 +78,7 @@ public class Main2Activity extends AppCompatActivity {
                 reader = new BufferedReader(new InputStreamReader(ip));
                 StringBuilder builder = new StringBuilder();
                 Log.d("Uwaga", "15");
+                Log.d("Uwaga", "15");
                 String line = "";
                 while ((line = reader.readLine()) != null) {
 
